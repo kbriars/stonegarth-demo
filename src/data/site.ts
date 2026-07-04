@@ -32,7 +32,7 @@ export const site = {
   formspreeEndpoint: "https://formspree.io/f/mdaryjbq",
   // Cloudflare Web Analytics: enable in the Cloudflare dashboard after
   // deploying, then paste the beacon token. Empty = no analytics script.
-  analyticsToken: "",
+  analyticsToken: "51f9424b1fff4e6c91af4cc2965df160",
 
   // ── SEO ─────────────────────────────────────────────────────────────────
   seo: {
