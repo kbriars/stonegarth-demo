@@ -1,0 +1,62 @@
+---
+import { site } from "../data/site";
+---
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Where we work</h2>
+    <p class="lead">{site.areaLead}</p>
+    <ul class="towns">
+      {site.towns.map((town) => <li>{town}</li>)}
+    </ul>
+    <p class="note">{site.areaNote}</p>
+  </div>
+</section>
+
+<style>
+  .lead {
+    margin-top: 1rem;
+  }
+
+  .towns {
+    list-style: none;
+    columns: 2;
+    column-gap: 2rem;
+    margin: 0 0 1.25rem;
+    padding: 0;
+  }
+
+  .towns li {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    padding-block: 0.3rem;
+    break-inside: avoid;
+  }
+
+  /* square marker, ties into the site's rule/block motif */
+  .towns li::before {
+    content: "";
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--c-accent);
+    margin-right: 0.65rem;
+  }
+
+  @media (min-width: 40rem) {
+    .towns {
+      columns: 3;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .towns {
+      columns: 4;
+    }
+  }
+
+  .note {
+    color: var(--c-muted);
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,63 @@
+---
+import { site } from "../data/site";
+---
+
+<section id="reviews" class="section">
+  <div class="container">
+    <h2 class="section-title">What customers say</h2>
+    <div class="grid">
+      {
+        site.reviews.map((review) => (
+          <figure class="review">
+            <span class="stars" aria-hidden="true">
+              ★★★★★
+            </span>
+            <blockquote>“{review.quote}”</blockquote>
+            <figcaption>
+              {review.name}, {review.town}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .review {
+    background: var(--c-bg-alt);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin: 0;
+  }
+
+  .stars {
+    color: var(--c-star);
+    letter-spacing: 0.12em;
+    font-size: 1.05rem;
+  }
+
+  blockquote {
+    margin: 0.6rem 0 0.9rem;
+    line-height: 1.65;
+  }
+
+  figcaption {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--c-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

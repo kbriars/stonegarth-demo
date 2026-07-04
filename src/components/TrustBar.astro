@@ -1,0 +1,50 @@
+---
+import { site } from "../data/site";
+---
+
+<section class="trust" aria-label="Why choose us">
+  <ul class="container trust-grid">
+    <li>{site.trust.years}</li>
+    <li>{site.trust.insured}</li>
+    <li aria-label={`Rated ${site.trust.rating} out of 5 from ${site.trust.ratingText}`}>
+      <span class="stars" aria-hidden="true">★★★★★</span>
+      {site.trust.rating} · {site.trust.ratingText}
+    </li>
+    <li>{site.trust.coverage}</li>
+  </ul>
+</section>
+
+<style>
+  .trust {
+    background: var(--c-accent-tint);
+  }
+
+  .trust-grid {
+    list-style: none;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem 1.5rem;
+    padding-block: 1.4rem;
+    text-align: center;
+  }
+
+  li {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.975rem;
+    color: var(--c-accent);
+  }
+
+  .stars {
+    color: var(--c-star);
+    letter-spacing: 0.1em;
+    margin-right: 0.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .trust-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

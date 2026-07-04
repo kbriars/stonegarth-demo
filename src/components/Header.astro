@@ -1,0 +1,93 @@
+---
+import { site } from "../data/site";
+---
+
+<header class="header">
+  <div class="container header-inner">
+    <a href="#top" class="brand">{site.name}</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#work">Our work</a>
+      <a href="#reviews">Reviews</a>
+    </nav>
+    <div class="actions">
+      <a href={site.phoneHref} class="phone-link">{site.phone}</a>
+      <a href="#contact" class="btn header-btn">Get a free quote</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    background: var(--c-bg);
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4rem;
+    padding-block: 0.5rem;
+  }
+
+  .brand {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    color: var(--c-accent);
+    text-decoration: none;
+    max-width: 13rem;
+  }
+
+  .nav {
+    display: none;
+    gap: 1.5rem;
+  }
+
+  .nav a {
+    color: var(--c-muted);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .nav a:hover {
+    color: var(--c-accent);
+    text-decoration: underline;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .header-btn {
+    display: none;
+    padding: 0.6rem 1.25rem;
+    min-height: 0;
+  }
+
+  @media (min-width: 48rem) {
+    /* header only sticks on desktop; mobile has the bottom call bar instead */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .brand {
+      max-width: none;
+    }
+
+    .nav {
+      display: flex;
+    }
+
+    .header-btn {
+      display: inline-block;
+    }
+  }
+</style>

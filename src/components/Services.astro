@@ -1,0 +1,99 @@
+---
+import { site } from "../data/site";
+import Pic from "./Pic.astro";
+---
+
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="section-title">What we do</h2>
+    <div class="grid">
+      {
+        site.services.map((service) => (
+          <article class="card">
+            <Pic
+              name={service.image}
+              alt={service.imageAlt}
+              widths={[400, 640, 900]}
+              sizes="(min-width: 64rem) 25vw, (min-width: 40rem) 50vw, 100vw"
+              class="card-img"
+            />
+            <div class="card-body">
+              <h3>{service.title}</h3>
+              <p>{service.blurb}</p>
+              <a class="card-link" href="#contact">
+                Get a quote
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card :global(.card-img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
+  }
+
+  p {
+    color: var(--c-muted);
+    font-size: 0.975rem;
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 0.9rem;
+  }
+
+  .card-link {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-underline-offset: 3px;
+    margin-top: auto;
+  }
+
+  .card-link:hover {
+    color: var(--c-accent-hover);
+  }
+
+  @media (min-width: 40rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

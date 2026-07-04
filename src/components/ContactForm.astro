@@ -1,0 +1,209 @@
+---
+import { site } from "../data/site";
+
+const endpoint = site.formspreeEndpoint;
+---
+
+<section id="contact" class="section contact">
+  <div class="container">
+    <h2 class="section-title">{site.contact.heading}</h2>
+    <p class="lead">{site.contact.lead}</p>
+
+    <div class="wrap">
+      <form method="POST" action={endpoint || "#"} data-connected={endpoint ? "true" : "false"}>
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required autocomplete="name" />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" required autocomplete="tel" />
+        </div>
+        <div>
+          <label for="postcode">Postcode</label>
+          <input id="postcode" name="postcode" type="text" autocomplete="postal-code" />
+        </div>
+        <div>
+          <label for="message">What needs doing?</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <!-- honeypot spam trap: hidden from people, bots fill it in -->
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button type="submit" class="btn">Send my details</button>
+        <p class="form-status" role="status" hidden></p>
+      </form>
+
+      <aside>
+        <h3>Prefer to talk?</h3>
+        <a href={site.phoneHref} class="phone-link big-phone">{site.phone}</a>
+        <p class="email-line">
+          Or email <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+        <p class="promise">{site.contact.promise}</p>
+        <h3>Opening hours</h3>
+        <dl class="hours">
+          {
+            site.contact.hours.map((row) => (
+              <div class="hours-row">
+                <dt>{row.days}</dt>
+                <dd>{row.time}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--c-accent-tint);
+  }
+
+  .lead {
+    max-width: 38rem;
+  }
+
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 1.5rem;
+  }
+
+  form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    font: inherit;
+    background: var(--c-bg);
+    color: var(--c-text);
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 1px;
+  }
+
+  .hp {
+    display: none;
+  }
+
+  button {
+    justify-self: start;
+  }
+
+  .form-status {
+    background: var(--c-bg);
+    border-left: 4px solid var(--c-accent);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .promise {
+    font-weight: 600;
+    margin: 0 0 2rem;
+    padding-left: 0.85rem;
+    border-left: 4px solid var(--c-accent);
+  }
+
+  aside h3 {
+    font-size: 1.15rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .big-phone {
+    font-size: 1.6rem;
+    color: var(--c-accent);
+  }
+
+  .email-line {
+    margin: 0.75rem 0 1.5rem;
+  }
+
+  .hours {
+    margin: 0;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 20rem;
+    padding-block: 0.25rem;
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--c-muted);
+  }
+
+  @media (min-width: 48rem) {
+    .wrap {
+      grid-template-columns: 3fr 2fr;
+      gap: 4rem;
+    }
+  }
+</style>
+
+<script>
+  // Submit via Formspree's AJAX API so visitors get an inline thank-you
+  // instead of leaving the site. Falls back to a normal POST (Formspree's
+  // hosted thank-you page) if the request fails or JS is unavailable.
+  const form = document.querySelector<HTMLFormElement>("#contact form");
+  const status = form?.querySelector<HTMLElement>(".form-status");
+
+  form?.addEventListener("submit", async (event) => {
+    if (!status) return;
+    event.preventDefault();
+
+    if (form.dataset.connected !== "true") {
+      // Demo mode: no backend wired up yet
+      status.textContent =
+        "This is a demo. On your site, this enquiry would land straight in your inbox.";
+      status.hidden = false;
+      return;
+    }
+
+    const button = form.querySelector("button");
+    if (button) button.disabled = true;
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error(`Form endpoint returned ${response.status}`);
+      form.reset();
+      status.textContent = "Thanks, we've got your details. We'll be in touch within one working day.";
+      status.hidden = false;
+    } catch {
+      form.submit();
+    } finally {
+      if (button) button.disabled = false;
+    }
+  });
+</script>

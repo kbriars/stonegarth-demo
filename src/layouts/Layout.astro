@@ -1,23 +1,83 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+/**
+ * Base layout: document shell, SEO tags, LocalBusiness structured data,
+ * and the (optional) analytics snippet. Page content comes in via <slot />.
+ */
+import "@fontsource-variable/archivo/index.css";
+import "../styles/global.css";
+import { site } from "../data/site";
+import { siteImage } from "../utils/images";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.seo.title, description = site.seo.description } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+
+// Link-preview image for shares/outreach, added only once the real hero photo
+// exists (SVG placeholders don't render in preview cards)
+const heroImg = siteImage(site.hero.image);
+const ogImage =
+  heroImg.format !== "svg" && Astro.site ? new URL(heroImg.src, Astro.site).href : undefined;
+
+// Structured data so search engines understand this as a local business
+const localBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: site.name,
+  telephone: site.phoneHref.replace("tel:", ""),
+  email: site.email,
+  url: canonical,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Warrington",
+    addressRegion: "Cheshire",
+    addressCountry: "GB",
+  },
+  areaServed: site.towns,
+  openingHours: "Mo-Sa 08:00-18:00",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: site.trust.rating,
+    reviewCount: 50,
+  },
+};
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta name="twitter:card" content="summary_large_image" />}
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+
+    {
+      /* Cloudflare Web Analytics: renders only once a token is set in site.ts */
+      site.analyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: site.analyticsToken })}
+        />
+      )
+    }
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

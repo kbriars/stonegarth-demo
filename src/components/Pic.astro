@@ -1,0 +1,24 @@
+---
+/**
+ * Image wrapper: resolves a photo by basename (real .jpg wins over the
+ * .svg placeholder) and only applies responsive widths to real photos,
+ * since SVG placeholders can't be resized.
+ */
+import { Image } from "astro:assets";
+import { siteImage } from "../utils/images";
+
+interface Props {
+  name: string;
+  alt: string;
+  widths?: number[];
+  sizes?: string;
+  loading?: "eager" | "lazy";
+  class?: string;
+}
+
+const { name, alt, widths, sizes, loading = "lazy", class: className } = Astro.props;
+const img = siteImage(name);
+const responsive = img.format === "svg" ? {} : { widths, sizes };
+---
+
+<Image src={img} alt={alt} loading={loading} class={className} {...responsive} />

@@ -1,11 +1,35 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+/**
+ * The whole site is this one page. Section order is deliberate:
+ * hero → proof → services → work → reviews → process → area → contact.
+ * All content comes from src/data/site.ts.
+ */
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import TrustBar from "../components/TrustBar.astro";
+import Services from "../components/Services.astro";
+import Gallery from "../components/Gallery.astro";
+import Reviews from "../components/Reviews.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import ServiceArea from "../components/ServiceArea.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Footer from "../components/Footer.astro";
+import StickyCta from "../components/StickyCta.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <Header />
+  <main>
+    <Hero />
+    <TrustBar />
+    <Services />
+    <Gallery />
+    <Reviews />
+    <HowItWorks />
+    <ServiceArea />
+    <ContactForm />
+  </main>
+  <Footer />
+  <StickyCta />
 </Layout>

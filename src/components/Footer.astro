@@ -1,0 +1,66 @@
+---
+import { site } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <p class="name">{site.name}</p>
+    <p class="strapline">{site.footer.strapline}</p>
+    <p>
+      <a href={site.phoneHref}>{site.phone}</a> · <a href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
+    <p class="towns">Covering {site.towns.join(", ")} and surrounding areas.</p>
+    <div class="bottom">
+      <span>© {year} {site.name}. {site.footer.demoNote}</span>
+      <a class="credit" href={site.footer.creditHref}>{site.footer.credit}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--c-accent);
+    color: rgba(255, 255, 255, 0.85);
+    padding-block: 3rem 2rem;
+    font-size: 0.95rem;
+  }
+
+  .footer a {
+    color: #fff;
+  }
+
+  .name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.25rem;
+  }
+
+  .strapline {
+    margin-bottom: 1rem;
+  }
+
+  .towns {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 46rem;
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .credit {
+    font-weight: 600;
+  }
+</style>

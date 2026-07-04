@@ -1,0 +1,64 @@
+---
+import { site } from "../data/site";
+---
+
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">How it works</h2>
+    <ol class="steps">
+      {
+        site.steps.map((step, i) => (
+          <li>
+            <span class="num" aria-hidden="true">
+              {i + 1}
+            </span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 2rem 0 0;
+    padding: 0;
+  }
+
+  .num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius);
+    background: var(--c-accent);
+    color: var(--c-on-accent);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.9rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  p {
+    color: var(--c-muted);
+    margin: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

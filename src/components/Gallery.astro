@@ -1,0 +1,126 @@
+---
+import { site } from "../data/site";
+import Pic from "./Pic.astro";
+---
+
+<section id="work" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">Recent jobs near you</h2>
+    <div class="grid">
+      {
+        site.gallery.map((job) => (
+          <figure class:list={["item", { pair: !!job.before }]}>
+            {job.before ? (
+              <div class="pair-images">
+                <div class="shot">
+                  <span class="badge badge-before">Before</span>
+                  <Pic
+                    name={job.before}
+                    alt={job.beforeAlt ?? `Before: ${job.caption}`}
+                    widths={[400, 640, 900]}
+                    sizes="(min-width: 40rem) 33vw, 50vw"
+                    class="img"
+                  />
+                </div>
+                <div class="shot">
+                  <span class="badge badge-after">After</span>
+                  <Pic
+                    name={job.image}
+                    alt={job.imageAlt}
+                    widths={[400, 640, 900]}
+                    sizes="(min-width: 40rem) 33vw, 50vw"
+                    class="img"
+                  />
+                </div>
+              </div>
+            ) : (
+              <Pic
+                name={job.image}
+                alt={job.imageAlt}
+                widths={[400, 640, 900]}
+                sizes="(min-width: 64rem) 33vw, (min-width: 40rem) 50vw, 100vw"
+                class="img"
+              />
+            )}
+            <figcaption>{job.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    margin-top: 2rem;
+  }
+
+  .item {
+    margin: 0;
+  }
+
+  .item :global(.img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .pair-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .shot {
+    position: relative;
+  }
+
+  .badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    z-index: 1;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius);
+  }
+
+  .badge-before {
+    background: var(--c-muted);
+  }
+
+  .badge-after {
+    background: var(--c-accent);
+  }
+
+  figcaption {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    margin-top: 0.6rem;
+  }
+
+  @media (min-width: 40rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pair {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
