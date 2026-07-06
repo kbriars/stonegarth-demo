@@ -107,9 +107,9 @@ export const site = {
       imageAlt: "Block paved driveway in Stockton Heath",
     },
     {
-      caption: "Indian stone patio, Lymm",
+      caption: "Patio & seating area, Lymm",
       image: "gallery-patio",
-      imageAlt: "Indian stone patio with garden furniture in Lymm",
+      imageAlt: "Paved patio with garden furniture at the back of a house in Lymm",
     },
     {
       caption: "New lawn & borders, Great Sankey",
