@@ -95,13 +95,6 @@ export const site = {
   // ── Recent work gallery ────────────────────────────────────────────────
   gallery: [
     {
-      caption: "Full garden landscaping, Appleton",
-      image: "gallery-after",
-      imageAlt: "Finished garden in Appleton after full landscaping",
-      before: "gallery-before",
-      beforeAlt: "Overgrown garden in Appleton before landscaping work",
-    },
-    {
       caption: "Block paved driveway, Stockton Heath",
       image: "gallery-driveway",
       imageAlt: "Block paved driveway in Stockton Heath",
